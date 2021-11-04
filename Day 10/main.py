@@ -1,23 +1,21 @@
+import os
+from art import logo
 
 
-# Addition
+def clearConsole(): return os.system(
+    'cls' if os.name in ('nt', 'dos') else 'clear')
+
 
 def add(n1, n2):
     return n1 + n2
-
-# Subtraction
 
 
 def subtract(n1, n2):
     return n1 - n2
 
-# Multiplication
-
 
 def multiply(n1, n2):
     return n1 * n2
-
-# Division
 
 
 def divide(n1, n2):
@@ -31,17 +29,28 @@ operations = {
     "/": divide
 }
 
-num1 = int(input("What's the first number?: "))
 
-for symbol in operations:
-    print(symbol)
+def calculator():
+    print(logo)
 
-operation_symbol = input("Pick an operation from the line above: ")
+    num1 = float(input("What's the first number?: "))
+    for symbol in operations:
+        print(symbol)
+    should_continue = True
 
-num2 = int(input("What's the second number?: "))
+    while should_continue:
+        operation_symbol = input("Pick an operation: ")
+        num2 = float(input("What's the next number?: "))
+        calculation_function = operations[operation_symbol]
+        answer = calculation_function(num1, num2)
+        print(f"{num1} {operation_symbol} {num2} = {answer}")
 
-calculation_function = operations[operation_symbol]
+        if input(f"Type 'y' to continue calculating with {answer}, or type 'n' to start a new calculation: ") == 'y':
+            num1 = answer
+        else:
+            should_continue = False
+            clearConsole()
+            calculator()
 
-answer = calculation_function(num1, num2)
 
-print(f"{num1} {operation_symbol} {num2} = {answer}")
+calculator()
